@@ -1,7 +1,9 @@
 package com.restaurant.restaurant_management.service;
 
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,16 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.restaurant.restaurant_management.dao.EmployeeDAO;
 import com.restaurant.restaurant_management.model.Employee;
+import com.restaurant.restaurant_management.model.Roles;
 
 
 @Service(value="employeeService")
 public class EmployeeServiceImpl implements EmployeeService,UserDetailsService{
 
 	private EmployeeDAO employeeDAO;
-	@Autowired
+	//@Autowired
+	//private EmployeeRolesDAO employeeRolesDAO;
+	@Autowired(required=true)
 	public EmployeeServiceImpl(EmployeeDAO theEmployeeDAO) {
 		employeeDAO = theEmployeeDAO;
 	}
+/*	@Autowired(required=false)
+	public EmployeeServiceImpl(EmployeeRolesDAO theEmployeeRolesDAO) {
+		employeeRolesDAO=theEmployeeRolesDAO;
+	}*/
 
 	@Override
 	@Transactional
@@ -61,15 +70,25 @@ Employee theEmployee = employeeDAO.findById(id);
 		if(emp == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
+		/*else {
+			Long id= emp.getEmp_id();
+			emp.setRoles(employeeDAO.getRoles(id));
+		}*/
 		return new org.springframework.security.core.userdetails.User(emp.getEmail(), emp.getPassword(), getAuthority(emp));
 	}
 	private Set<SimpleGrantedAuthority> getAuthority(Employee emp) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        Set<Roles> roles= emp.getRoles();
+        Iterator<Roles> ir= roles.iterator();
+        while(ir.hasNext()) {
+        	System.out.println(ir.next().getRole_name());
+        }
         emp.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole_name()));
 		});
-		return authorities;
-		//return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		//return authorities;
+		// authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		 return authorities;
 	}
 
 	

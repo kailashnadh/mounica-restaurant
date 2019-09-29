@@ -55,7 +55,7 @@ public class Employee {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address_id;
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Employee_ROLES", joinColumns = {
+    @JoinTable(name = "employee_roles", joinColumns = {
             @JoinColumn(name = "emp_id") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id") })
     private Set<Roles> roles;

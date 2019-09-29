@@ -1,10 +1,15 @@
 package com.restaurant.restaurant_management.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +31,8 @@ public class Roles {
 	private Long role_id;
 	@Column
 	private String role_name;
+	@ManyToMany(fetch = FetchType.EAGER, cascade =CascadeType.ALL , mappedBy = "roles")
+	private Set<Employee> employees;
 	public Long getRole_id() {
 		return role_id;
 	}
