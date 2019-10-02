@@ -11,9 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -61,8 +64,18 @@ public class Employee {
             @JoinColumn(name = "emp_id") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id") })
     private Set<Roles> roles;
-	@NotNull
-	private long manager_id;
+	@ManyToOne(cascade={CascadeType.ALL})
+	 @JsonBackReference
+	@JoinColumn(name="manager_id")
+	private Employee manager;
+
+	public Employee getManager() {
+		return manager;
+	}
+	public void setManager(Employee manager) {
+		this.manager = manager;
+	}
+
 	public long getEmp_id() {
 		return emp_id;
 	}
@@ -129,12 +142,6 @@ public class Employee {
 	}
 	public void setRoles(Set<Roles> roles) {
 		this.roles = roles;
-	}
-	public long getManager_id() {
-		return manager_id;
-	}
-	public void setManager_id(long manager_id) {
-		this.manager_id = manager_id;
 	}
 	
 

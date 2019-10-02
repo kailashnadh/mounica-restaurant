@@ -15,7 +15,8 @@ public interface EmployeeDAO {
 	public void save(Employee theEmployee);
 	
 	public void deleteById(Long id);
-	public Set<Roles>getRoles(Long emp_id); 
+	
+	public Employee getMangerFromEmployeeId(Long id);
 	
 
 }

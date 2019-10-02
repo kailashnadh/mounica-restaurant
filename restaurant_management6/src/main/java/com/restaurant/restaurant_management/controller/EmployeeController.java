@@ -45,12 +45,18 @@ private BCryptPasswordEncoder bcryptEncoder;
 
     //@Secured("ROLE_USER")
     //@PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")
 	@GetMapping("/{employeeId}")
 	public Employee employeeById(@PathVariable("employeeId") long employeeId) {
 
 		return employeeService.findById(employeeId);
 	}
+    @PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")
+ 	@GetMapping("/manager/{employeeId}")
+ 	public Employee getManagerbyEmployeeId(@PathVariable("employeeId") long employeeId) {
+
+ 		return employeeService.getMangerFromEmployeeId(employeeId);
+ 	}
 
 	@PutMapping("/update")
 	public Employee updateEmployee(@RequestBody Employee employee) {
@@ -59,8 +65,8 @@ private BCryptPasswordEncoder bcryptEncoder;
 		 return employee;
 	}
 	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/{messageId}")
-	public void deleteCountry(@PathVariable("employeeId") long employeeId) {
+	@DeleteMapping("/{employeeId}")
+	public void deleteEmployee(@PathVariable("employeeId") long employeeId) {
 		employeeService.deleteById(employeeId);
 	}
 }

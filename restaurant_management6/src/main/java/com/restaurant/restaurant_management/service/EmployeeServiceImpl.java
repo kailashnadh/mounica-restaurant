@@ -63,6 +63,13 @@ Employee theEmployee = employeeDAO.findById(id);
 		employeeDAO.deleteById(id);
 		
 	}
+	@Override
+	public Employee getMangerFromEmployeeId(Long id) {
+		return employeeDAO.getMangerFromEmployeeId(id);
+	}
+
+	
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String emailId) throws UsernameNotFoundException {
@@ -76,6 +83,7 @@ Employee theEmployee = employeeDAO.findById(id);
 		}*/
 		return new org.springframework.security.core.userdetails.User(emp.getEmail(), emp.getPassword(), getAuthority(emp));
 	}
+	
 	private Set<SimpleGrantedAuthority> getAuthority(Employee emp) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         Set<Roles> roles= emp.getRoles();
