@@ -24,9 +24,10 @@ public class EmployeeController {
 private EmployeeService employeeService;
 @Autowired
 private BCryptPasswordEncoder bcryptEncoder;
-	@Autowired
+@Autowired
 	public EmployeeController(EmployeeService theEmployeeService) {
 		employeeService = theEmployeeService;
+		System.out.println("employee service");
 	}
 
 	@PostMapping("/add")
@@ -40,6 +41,7 @@ private BCryptPasswordEncoder bcryptEncoder;
     @PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/all")
 	public Iterable<Employee> allEmployees() {
+    	System.out.println("all method");
 		return employeeService.findAll();
 	}
 

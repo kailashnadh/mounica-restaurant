@@ -77,22 +77,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				// return employee
 				return theEmployee;
 	}
-	@Override
-	public Set<Roles> getRoles(Long emp_id) {
-		/*Query theQuery = entityManager.createQuery(
-				"select r from Roles r JOIN Employee_roles er "
-				+ "with er.emp_id=:emp_id");*/
-		Query theQuery =entityManager.createNativeQuery("select * from Roles r join Employee_roles er"
-				+ "on r.id=er.role_id where er.emp_id=:emp_id");
-		theQuery.setParameter("emp_id", emp_id);
-		Set<Roles> roles = new HashSet();
-			List<Roles> rolesList=theQuery.getResultList();
-			for(Roles r :rolesList) {
-				if( !roles.contains(r)) {
-					roles.add(r);
-				}
-			}	
-		return roles;
-	}
+	
 
 }
